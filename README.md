@@ -2,6 +2,8 @@
 
 A classic two-player PONG game built with **MonoGame DesktopGL** on **.NET 10**, designed as a teaching example for object-oriented programming and event-driven architecture in C#.
 
+![](pong.png)
+
 ## Gameplay
 
 | Player | Up | Down |
