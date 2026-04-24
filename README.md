@@ -1,6 +1,6 @@
 # PONG — MonoGame OOP Teaching Project
 
-A classic two-player PONG game built with **MonoGame DesktopGL** on **.NET 9**, designed as a teaching example for object-oriented programming and event-driven architecture in C#.
+A classic two-player PONG game built with **MonoGame DesktopGL** on **.NET 10**, designed as a teaching example for object-oriented programming and event-driven architecture in C#.
 
 ## Gameplay
 
@@ -52,7 +52,7 @@ ScoreBoard → ScoreChanged    → Game1.OnScoreChanged → (extension point: wi
 
 ## Getting started
 
-**Prerequisites:** [.NET 9 SDK](https://dotnet.microsoft.com/download)
+**Prerequisites:** [.NET 10 SDK](https://dotnet.microsoft.com/download)
 
 ```powershell
 # Run in development
