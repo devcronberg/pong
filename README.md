@@ -89,9 +89,3 @@ This project includes a custom Copilot agent and skills to help work with MonoGa
 | 🛠 **Skill** | `/add-sound-effect` | Add audio via the content pipeline |
 | 🛠 **Skill** | `/debug-collision` | Draw hitboxes to visualise collision detection |
 
-## Branch overview
-
-| Branch | Description |
-|---|---|
-| `master` | Original single-file implementation |
-| `oop-teaching` | This branch — OOP refactor with classes, events, and Copilot tooling |

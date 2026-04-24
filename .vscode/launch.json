@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug PONG",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Game1.csproj",
+            "cwd": "${workspaceFolder}/bin/Debug/net9.0"
+        }
+    ]
+}
