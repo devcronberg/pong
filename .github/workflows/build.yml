@@ -22,6 +22,12 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Install fonts
+        run: |
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+          sudo apt-get install -y --no-install-recommends ttf-mscorefonts-installer
+          fc-cache -f
+
       - name: Publish
         run: |
           dotnet publish Game1.csproj \
