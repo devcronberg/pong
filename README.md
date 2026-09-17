@@ -75,6 +75,10 @@ dotnet test .\tests\Pong.Tests\Pong.Tests.csproj
 
 The xUnit suite covers scoring, score-change events, and validation of player numbers. Rendering and the MonoGame window are verified manually.
 
+## Ideas and exercises
+
+See [possiblechanges.md](possiblechanges.md) for small visual changes, game features, bots, external API control, and larger project ideas with acceptance criteria.
+
 ## Static analysis
 
 [`IDisposableAnalyzers`](https://github.com/DotNetAnalyzers/IDisposableAnalyzers) runs during every build. The `IDISP003` and `IDISP006` diagnostics are treated as errors, so owned resources must be disposed correctly before the project and tests can build.

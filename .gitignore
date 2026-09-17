@@ -1,6 +1,7 @@
 # Build output
 bin/
 obj/
+publish/
 
 # MonoGame content pipeline cache
 Content/bin/
