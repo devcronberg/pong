@@ -15,12 +15,16 @@ Follow these steps to add a new game entity to the PONG project, consistent with
 - Events use `EventArgs` subclasses in their own file in `Types/`
 - `Game1.cs` is the orchestrator — new objects are created there and wired via events
 - `nullable` is enabled — use `null!` for fields initialised in `LoadContent`/`Initialize`
+- Dispose resources created directly by the object; assets loaded through `Content.Load<T>()` are owned by the content manager
 
 ## Step 1 – Define the class
 
 Create `Types/<ClassName>.cs`:
 
 ```csharp
+using System;
+using Microsoft.Xna.Framework;
+
 namespace Game1;
 
 /// <summary>Describe what this object does.</summary>
@@ -50,6 +54,7 @@ Create `Types/<EventName>EventArgs.cs` for any new events:
 
 ```csharp
 using System;
+
 namespace Game1;
 
 public class MyEventArgs : EventArgs
@@ -87,4 +92,11 @@ _myTexture = Content.Load<Texture2D>("MySprite");
 
 ## Step 5 – Build and verify
 
-Run `dotnet build` and confirm 0 errors before testing.
+Add or update focused tests for the object's domain behaviour and events, then run:
+
+```powershell
+dotnet build Pong.csproj --no-incremental
+dotnet test tests/Pong.Tests/Pong.Tests.csproj
+```
+
+Do not finish until the build reports 0 warnings and 0 errors and all tests pass.

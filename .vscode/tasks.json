@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Game1.csproj",
+                "${workspaceFolder}/Pong.csproj",
                 "--configuration",
                 "Debug"
             ],

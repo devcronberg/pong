@@ -5,8 +5,8 @@
             "name": "Debug PONG",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/Game1.csproj",
-            "cwd": "${workspaceFolder}/bin/Debug/net9.0"
+            "projectPath": "${workspaceFolder}/Pong.csproj",
+            "cwd": "${workspaceFolder}/bin/Debug/net10.0"
         }
     ]
 }

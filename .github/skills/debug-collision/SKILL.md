@@ -1,69 +1,51 @@
 ---
 name: debug-collision
-description: "Visualise and debug collision boxes in this MonoGame project. Use when collision feels wrong, the ball passes through a paddle, or you want to draw hitboxes for any game object during development."
+description: "Visualise and debug collision boxes in this MonoGame project. Use when collision feels wrong, the ball passes through a paddle, an event fires unexpectedly, or collision visualisation must include a new object."
 ---
 
 # Debug Collision Boxes
 
-Use this skill to draw visible hitboxes around game objects so you can see exactly what the collision system detects.
+Use the project's existing collision visualisation before changing collision code.
 
-## How collision works in this project
+## Existing support
 
-`Ball.Update()` uses `Rectangle.Intersects()` to check if the ball's bounds overlap a paddle's bounds. Both are returned by `GetBounds()` on `Ball` and `Paddle`.
+- Press `F1` to toggle collision visualisation at runtime
+- `Game1.Update()` performs edge detection so holding `F1` only toggles once
+- `Game1.Draw()` draws the ball, paddle, and wall hitboxes in red when `_debugCollision` is enabled
+- `DrawRectOutline()` renders rectangle boundaries
 
-## Step 1 – Add a debug flag
+Do not add another debug flag, key handler, or outline helper.
 
-In `Types/Game1.cs`, add a toggle at the top of the class:
+## Step 1 – Reproduce and observe
 
-```csharp
-private const bool DebugCollision = true; // set to false for release
-```
+Run the game, press `F1`, and reproduce the collision. Record which visible bounds overlap when the unexpected behaviour occurs.
 
-## Step 2 – Draw hitboxes in Draw()
+## Step 2 – Inspect the collision path
 
-After drawing the normal game objects, add a debug-only block in `Game1.Draw()`:
+- `Ball.GetBounds()` and `Paddle.GetBounds()` define the collision rectangles
+- `Ball.Update()` moves the ball before checking walls, paddles, and scoring
+- Paddle collision depends on both `Rectangle.Intersects()` and the sign of `Velocity.X`
+- Collision events are handled by `Game1`
 
-```csharp
-if (DebugCollision)
-{
-    DrawRectOutline(_ball.GetBounds(),    Color.Red);
-    DrawRectOutline(_paddle1.GetBounds(), Color.Lime);
-    DrawRectOutline(_paddle2.GetBounds(), Color.Lime);
-}
-```
+Identify which condition disagrees with the visualised bounds before editing code.
 
-## Step 3 – Add the outline helper
+## Step 3 – Extend visualisation for new objects
 
-Add this helper method to `Game1.cs` alongside `DrawRect`:
+Add the object's bounds to the existing `_debugCollision` block:
 
 ```csharp
-/// <summary>Draws a 1-pixel border around a rectangle for debug visualisation.</summary>
-private void DrawRectOutline(Rectangle r, Color color)
-{
-    DrawRect(r.Left,        r.Top,          r.Width, 1,        color); // top
-    DrawRect(r.Left,        r.Bottom - 1,   r.Width, 1,        color); // bottom
-    DrawRect(r.Left,        r.Top,          1,       r.Height, color); // left
-    DrawRect(r.Right - 1,   r.Top,          1,       r.Height, color); // right
-}
+DrawRectOutline(myObject.GetBounds(), Color.Yellow);
 ```
 
-## Step 4 – Run and inspect
+Use a distinct colour when overlapping rectangles need to be distinguished.
 
-Start the game with `dotnet run` or F5. Red = ball, Green = paddles. You can now see:
-- Whether the hitboxes match the visual positions
-- If the ball overlaps a paddle before the event fires
-- The exact moment `Intersects()` becomes true
+## Step 4 – Verify
 
-## Extending to other objects
+Add or update focused tests for any changed collision logic, then run:
 
-Call `DrawRectOutline(myObject.GetBounds(), Color.Yellow)` for any object that has a `GetBounds()` method returning a `Rectangle`.
-
-## Tip: toggle with a key
-
-Instead of a compile-time constant, you can toggle debug mode at runtime:
-
-```csharp
-// in Update(), outside the state switch:
-if (kb.IsKeyDown(Keys.F1) && !_prevKb.IsKeyDown(Keys.F1))
-    _debugCollision = !_debugCollision;
+```powershell
+dotnet build Pong.csproj --no-incremental
+dotnet test tests/Pong.Tests/Pong.Tests.csproj
 ```
+
+Do not finish until the build reports 0 warnings and 0 errors, all tests pass, and the collision behaviour has been checked with `F1`.

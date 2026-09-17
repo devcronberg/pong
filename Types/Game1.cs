@@ -84,13 +84,27 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
+        _spriteBatch?.Dispose();
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // Create a 1×1 white pixel texture; scaled to any size to draw rectangles
+        _pixel?.Dispose();
         _pixel = new Texture2D(GraphicsDevice, 1, 1);
         _pixel.SetData(new[] { Color.White });
 
         _font = Content.Load<SpriteFont>("Font");
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pixel?.Dispose();
+            _spriteBatch?.Dispose();
+            _graphics.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
 
     // ---------------------------------------------------------------------------

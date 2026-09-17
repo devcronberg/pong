@@ -16,7 +16,7 @@ Press **Enter** to start and to serve. Press **Escape** to quit.
 ## Project structure
 
 ```
-Game1.csproj
+Pong.csproj
 Program.cs              ← Entry point, creates and runs the game
 Types/
   Game1.cs              ← Orchestrator: creates objects, wires events, calls Update/Draw
@@ -30,6 +30,10 @@ Types/
 Content/
   Font.spritefont       ← Bitmap font (Arial 32pt) built by content pipeline
   Content.mgcb          ← MonoGame content pipeline build file
+tests/
+  Pong.Tests/
+    Pong.Tests.csproj   ← xUnit test project
+    ScoreBoardTests.cs  ← Tests for scoring logic and events
 ```
 
 ## OOP concepts demonstrated
@@ -60,8 +64,25 @@ ScoreBoard → ScoreChanged    → Game1.OnScoreChanged → (extension point: wi
 # Run in development
 dotnet run
 
+# Run the tests
+dotnet test .\tests\Pong.Tests\Pong.Tests.csproj
+
 # Debug in VS Code
 # Press F5 — uses .vscode/launch.json
+```
+
+## Testing
+
+The xUnit suite covers scoring, score-change events, and validation of player numbers. Rendering and the MonoGame window are verified manually.
+
+## Static analysis
+
+[`IDisposableAnalyzers`](https://github.com/DotNetAnalyzers/IDisposableAnalyzers) runs during every build. The `IDISP003` and `IDISP006` diagnostics are treated as errors, so owned resources must be disposed correctly before the project and tests can build.
+
+The repository must always build with **0 warnings and 0 errors**. Analyzer diagnostics should be fixed rather than suppressed.
+
+```powershell
+dotnet build .\Pong.csproj --no-incremental
 ```
 
 ## Publishing
@@ -73,10 +94,10 @@ powershell -ExecutionPolicy Bypass -File .\publish.ps1
 
 Output:
 ```
-publish\win-x64\Game1.exe        Windows x64
-publish\linux-x64\Game1          Linux x64
-publish\osx-x64\Game1            macOS Intel
-publish\osx-arm64\Game1          macOS Apple Silicon
+publish\win-x64\Pong.exe        Windows x64
+publish\linux-x64\Pong          Linux x64
+publish\osx-x64\Pong            macOS Intel
+publish\osx-arm64\Pong          macOS Apple Silicon
 ```
 
 ## AI assistance (GitHub Copilot)

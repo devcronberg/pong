@@ -13,4 +13,4 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", $cmd
 # Give the log window a moment to open, then start the game
 Start-Sleep -Milliseconds 500
 Set-Location $PSScriptRoot
-dotnet run --project Game1.csproj
+dotnet run --project Pong.csproj

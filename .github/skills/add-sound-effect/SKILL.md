@@ -44,6 +44,8 @@ In `LoadContent()`:
 _paddleHitSound = Content.Load<SoundEffect>("Sounds/paddle-hit");
 ```
 
+Assets returned by `Content.Load<T>()` are cached and disposed by the content manager. Do not dispose them separately.
+
 ## Step 4 – Play it from the right event handler
 
 Sound should be played in the event handler that matches the game event. For a paddle hit:
@@ -63,7 +65,14 @@ _paddleHitSound.Play(volume: 0.8f, pitch: 0f, pan: 0f);
 
 ## Step 5 – Build and verify
 
-Run `dotnet build`. If the content pipeline fails to find the file, double-check the path in `.mgcb` matches the actual file location under `Content/`.
+Run:
+
+```powershell
+dotnet build Pong.csproj --no-incremental
+dotnet test tests/Pong.Tests/Pong.Tests.csproj
+```
+
+Do not finish until the build reports 0 warnings and 0 errors and all tests pass. If the content pipeline fails to find the file, double-check that the path in `.mgcb` matches the actual file location under `Content/`.
 
 ## Common issues
 

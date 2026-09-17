@@ -33,7 +33,7 @@ jobs:
 
       - name: Publish
         run: |
-          dotnet publish Game1.csproj \
+          dotnet publish Pong.csproj \
             --configuration Release \
             --runtime ${{ matrix.rid }} \
             --self-contained true \

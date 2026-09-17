@@ -38,15 +38,18 @@ public class ScoreBoard
     /// <param name="player">The player to award the point to (1 or 2).</param>
     public void AddPoint(int player)
     {
-        if (player == 1)
+        switch (player)
         {
-            Score1++;
-            ScoreChanged?.Invoke(this, new ScoreChangedEventArgs(1, Score1));
-        }
-        else
-        {
-            Score2++;
-            ScoreChanged?.Invoke(this, new ScoreChangedEventArgs(2, Score2));
+            case 1:
+                Score1++;
+                ScoreChanged?.Invoke(this, new ScoreChangedEventArgs(1, Score1));
+                break;
+            case 2:
+                Score2++;
+                ScoreChanged?.Invoke(this, new ScoreChangedEventArgs(2, Score2));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(player), player, "Player must be 1 or 2.");
         }
     }
 }

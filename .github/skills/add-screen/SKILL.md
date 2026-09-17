@@ -38,7 +38,32 @@ private void OnScoreChanged(object? sender, ScoreChangedEventArgs e)
 }
 ```
 
+`OnBallScored()` calls `ScoreBoard.AddPoint()` and then normally changes the state to `WaitingToServe`. Preserve the `GameOver` transition:
+
+```csharp
+private void OnBallScored(object? sender, ScoredEventArgs e)
+{
+    _scoreBoard.AddPoint(e.Player);
+    _serveTowards = e.Player;
+    _ball.PlaceAtCenter();
+
+    if (_state != GameState.GameOver)
+        _state = GameState.WaitingToServe;
+}
+```
+
 ## Step 3 – Handle input on the new screen
+
+Add a tested `Reset()` method to `ScoreBoard` before using it from `Game1`:
+
+```csharp
+/// <summary>Resets both player scores.</summary>
+public void Reset()
+{
+    Score1 = 0;
+    Score2 = 0;
+}
+```
 
 In `Game1.Update()`, add a case for the new state:
 
@@ -46,8 +71,9 @@ In `Game1.Update()`, add a case for the new state:
 case GameState.GameOver:
     if (enterPressed)
     {
-        // reset scores, ball, paddles and return to welcome
-        _score1 = 0; // or reset via ScoreBoard
+        _scoreBoard.Reset();
+        _ball.PlaceAtCenter();
+        _serveTowards = 1;
         _state = GameState.Welcome;
     }
     break;
@@ -70,4 +96,11 @@ if (_state == GameState.GameOver)
 
 ## Step 5 – Build and verify
 
-Run `dotnet build` and confirm 0 errors.
+Add or update tests for score reset and state-related domain logic, then run:
+
+```powershell
+dotnet build Pong.csproj --no-incremental
+dotnet test tests/Pong.Tests/Pong.Tests.csproj
+```
+
+Do not finish until the build reports 0 warnings and 0 errors and all tests pass.
