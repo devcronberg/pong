@@ -6,10 +6,10 @@ A classic two-player PONG game built with **MonoGame DesktopGL** on **.NET 10**,
 
 ## Gameplay
 
-| Player | Up | Down |
-|---|---|---|
-| Player 1 (left) | `W` | `S` |
-| Player 2 (right) | `↑` | `↓` |
+| Player           | Up  | Down |
+| ---------------- | --- | ---- |
+| Player 1 (left)  | `W` | `S`  |
+| Player 2 (right) | `↑` | `↓`  |
 
 Press **Enter** to start and to serve. Press **Escape** to quit.
 
@@ -38,14 +38,14 @@ tests/
 
 ## OOP concepts demonstrated
 
-| Concept | Where |
-|---|---|
-| **Encapsulation** | Each class owns its data — only exposes what others need |
-| **Single Responsibility** | `Ball` handles physics, `Paddle` handles input, `ScoreBoard` tracks points |
-| **Events & Delegates** | Objects communicate via events — no tight coupling |
-| **EventArgs subclasses** | Strongly typed event data (`ScoredEventArgs`, `PaddleHitEventArgs`, `ScoreChangedEventArgs`) |
-| **Dependency Injection** | `Paddle` receives its keys via constructor |
-| **Nullable reference types** | Enabled project-wide — fields are `null!` until initialised in `Initialize()` |
+| Concept                      | Where                                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------- |
+| **Encapsulation**            | Each class owns its data — only exposes what others need                                     |
+| **Single Responsibility**    | `Ball` handles physics, `Paddle` handles input, `ScoreBoard` tracks points                   |
+| **Events & Delegates**       | Objects communicate via events — no tight coupling                                           |
+| **EventArgs subclasses**     | Strongly typed event data (`ScoredEventArgs`, `PaddleHitEventArgs`, `ScoreChangedEventArgs`) |
+| **Dependency Injection**     | `Paddle` receives its keys via constructor                                                   |
+| **Nullable reference types** | Enabled project-wide — fields are `null!` until initialised in `Initialize()`                |
 
 ## Event flow
 
@@ -109,13 +109,13 @@ publish\osx-arm64\Pong          macOS Apple Silicon
 VS Code with GitHub Copilot is the default setup. The original instructions,
 agent and skills live in `.github/` and are the only maintained versions.
 
-| | Name | Use |
-|---|---|---|
-| 🤖 **Agent** | `monogame-dev` | MonoGame API help, game loop questions, content pipeline |
-| 🛠 **Skill** | `/add-game-object` | Add a new entity following the OOP/event pattern |
-| 🛠 **Skill** | `/add-screen` | Add a new game screen (Game Over, Pause, etc.) |
-| 🛠 **Skill** | `/add-sound-effect` | Add audio via the content pipeline |
-| 🛠 **Skill** | `/debug-collision` | Draw hitboxes to visualise collision detection |
+|             | Name                | Use                                                      |
+| ----------- | ------------------- | -------------------------------------------------------- |
+| 🤖 **Agent** | `monogame-dev`      | MonoGame API help, game loop questions, content pipeline |
+| 🛠 **Skill** | `/add-game-object`  | Add a new entity following the OOP/event pattern         |
+| 🛠 **Skill** | `/add-screen`       | Add a new game screen (Game Over, Pause, etc.)           |
+| 🛠 **Skill** | `/add-sound-effect` | Add audio via the content pipeline                       |
+| 🛠 **Skill** | `/debug-collision`  | Draw hitboxes to visualise collision detection           |
 
 ### Claude Code (optional)
 
@@ -129,11 +129,11 @@ powershell -ExecutionPolicy Bypass -File .\generate-claude.ps1
 For PowerShell 7, use `pwsh -File ./generate-claude.ps1` instead.
 Start a new Claude Code session in the project after generation.
 
-| Copilot source | Generated Claude Code output |
-|---|---|
-| `.github/copilot-instructions.md` | `CLAUDE.md` |
-| `.github/skills/` (including supporting files) | `.claude/skills/` |
-| `.github/agents/*.agent.md` | `.claude/agents/*.md` with translated metadata/tools |
+| Copilot source                                 | Generated Claude Code output                         |
+| ---------------------------------------------- | ---------------------------------------------------- |
+| `.github/copilot-instructions.md`              | `CLAUDE.md`                                          |
+| `.github/skills/` (including supporting files) | `.claude/skills/`                                    |
+| `.github/agents/*.agent.md`                    | `.claude/agents/*.md` with translated metadata/tools |
 
 Rerun the script after updating the originals, including after a pull. Generated
 outputs are ignored by Git. Do not edit them: regeneration replaces `CLAUDE.md`
