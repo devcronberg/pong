@@ -100,6 +100,18 @@ The repository must always build with **0 warnings and 0 errors**. Analyzer diag
 dotnet build .\Pong.csproj --no-incremental
 ```
 
+### CI quality gate
+
+Pull requests targeting `main` and pushes to `main` run the **Build, Analyzers & Tests**
+check on Windows. It builds the game and test project in Release with analyzers
+enabled and all warnings treated as errors, then runs the tests without rebuilding.
+TRX test reports are uploaded even when tests fail.
+
+Publishing for all four platforms and creating a release only run on pushes to
+`main`, after validation succeeds. Publish builds also treat warnings as errors.
+To block merging a failing pull request, make **Build, Analyzers & Tests** a required
+status check in GitHub branch protection or a repository ruleset.
+
 ## Publishing
 
 ```powershell

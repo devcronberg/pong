@@ -3,13 +3,44 @@ name: Build & Release
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+  validate:
+    name: Build, Analyzers & Tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build game and tests with analyzers
+        run: dotnet build tests/Pong.Tests/Pong.Tests.csproj --configuration Release --no-incremental -warnaserror -p:RunAnalyzersDuringBuild=true
+
+      - name: Run tests
+        run: dotnet test tests/Pong.Tests/Pong.Tests.csproj --configuration Release --no-build --no-restore --logger trx --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/*.trx
+          if-no-files-found: ignore
+
   build:
     name: Build (${{ matrix.rid }})
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     strategy:
@@ -35,6 +66,8 @@ jobs:
         run: |
           dotnet publish Pong.csproj \
             --configuration Release \
+            -warnaserror \
+            -p:RunAnalyzersDuringBuild=true \
             --runtime ${{ matrix.rid }} \
             --self-contained true \
             /p:PublishSingleFile=true \
@@ -53,6 +86,9 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
 
     steps:
       - name: Download all artifacts
