@@ -71,6 +71,17 @@ dotnet test .\tests\Pong.Tests\Pong.Tests.csproj
 # Press F5 — uses .vscode/launch.json
 ```
 
+### Live log viewer (Windows)
+
+Run `powershell -ExecutionPolicy Bypass -File .\run.ps1` to start the game
+with a separate UTF-8 log viewer. It shows the last 20 lines and follows new
+events, including startup, serves, scores and exit. Older sessions remain in
+the file; leave the viewer running to see new events.
+
+The script sets `PONG_LOG_PATH` to the project's `game.log` for the game process.
+Without this variable (for example with F5 or `dotnet run`), the game writes
+`game.log` next to its executable, normally in `bin/Debug/net10.0/`.
+
 ## Testing
 
 The xUnit suite covers scoring, score-change events, and validation of player numbers. Rendering and the MonoGame window are verified manually.

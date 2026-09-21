@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;           // Core MonoGame types
 using Microsoft.Xna.Framework.Graphics;  // SpriteBatch, Texture2D, SpriteFont
 using Microsoft.Xna.Framework.Input;     // Keyboard input
@@ -6,7 +7,7 @@ using Microsoft.Xna.Framework.Input;     // Keyboard input
 namespace Game1;
 
 // ---------------------------------------------------------------------------
-// Game1 – the orchestrator
+// Game1 ï¿½ the orchestrator
 // ---------------------------------------------------------------------------
 
 /// <summary>
@@ -22,7 +23,7 @@ public class Game1 : Game
     // --- MonoGame infrastructure ---
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch = null!; // Initialised in LoadContent
-    private Texture2D   _pixel       = null!; // 1×1 white texture used to draw rectangles
+    private Texture2D   _pixel       = null!; // 1ï¿½1 white texture used to draw rectangles
     private SpriteFont  _font        = null!; // Bitmap font for scores and UI text
 
     // --- Screen dimensions (constant throughout the session) ---
@@ -35,6 +36,9 @@ public class Game1 : Game
     private Paddle     _paddle1    = null!; // Left paddle  (player 1)
     private Paddle     _paddle2    = null!; // Right paddle (player 2)
     private ScoreBoard _scoreBoard = null!;
+    private readonly GameLog _log = new GameLog(
+        Environment.GetEnvironmentVariable("PONG_LOG_PATH")
+        ?? Path.Combine(AppContext.BaseDirectory, "game.log"));
 
     // --- State machine ---
     private GameState    _state        = GameState.Welcome;
@@ -55,6 +59,7 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = ScreenH;
         Content.RootDirectory = "Content";
         IsMouseVisible = false;
+        _log.Write("Game starting");
     }
 
     // ---------------------------------------------------------------------------
@@ -80,6 +85,7 @@ public class Game1 : Game
         _scoreBoard.ScoreChanged += OnScoreChanged;
 
         base.Initialize();
+        _log.Write("Game initialised - showing welcome screen");
     }
 
     protected override void LoadContent()
@@ -87,7 +93,7 @@ public class Game1 : Game
         _spriteBatch?.Dispose();
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // Create a 1×1 white pixel texture; scaled to any size to draw rectangles
+        // Create a 1ï¿½1 white pixel texture; scaled to any size to draw rectangles
         _pixel?.Dispose();
         _pixel = new Texture2D(GraphicsDevice, 1, 1);
         _pixel.SetData(new[] { Color.White });
@@ -107,8 +113,14 @@ public class Game1 : Game
         base.Dispose(disposing);
     }
 
+    protected override void OnExiting(object sender, ExitingEventArgs args)
+    {
+        _log.Write("Game exited");
+        base.OnExiting(sender, args);
+    }
+
     // ---------------------------------------------------------------------------
-    // Event handlers – this is where the objects "talk" to each other
+    // Event handlers ï¿½ this is where the objects "talk" to each other
     // ---------------------------------------------------------------------------
 
     /// <summary>
@@ -121,6 +133,7 @@ public class Game1 : Game
         _serveTowards = e.Player;       // Next serve goes towards the player who just scored
         _ball.PlaceAtCenter();          // Park the ball in the middle
         _state = GameState.WaitingToServe;
+        _log.Write($"Point scored by Player {e.Player} - score is now {_scoreBoard.Score1}:{_scoreBoard.Score2}");
     }
 
     /// <summary>
@@ -151,7 +164,7 @@ public class Game1 : Game
     }
 
     // ---------------------------------------------------------------------------
-    // Update – called every frame
+    // Update ï¿½ called every frame
     // ---------------------------------------------------------------------------
 
     protected override void Update(GameTime gameTime)
@@ -177,6 +190,7 @@ public class Game1 : Game
                 {
                     _serveTowards = 1;
                     _state = GameState.WaitingToServe;
+                    _log.Write("Game started - waiting for first serve");
                 }
                 break;
 
@@ -186,6 +200,7 @@ public class Game1 : Game
                 {
                     _ball.Launch(_serveTowards);
                     _state = GameState.Playing;
+                    _log.Write($"Ball served towards Player {_serveTowards}");
                 }
                 break;
 
@@ -207,7 +222,7 @@ public class Game1 : Game
     }
 
     // ---------------------------------------------------------------------------
-    // Draw – called every frame after Update
+    // Draw ï¿½ called every frame after Update
     // ---------------------------------------------------------------------------
 
     protected override void Draw(GameTime gameTime)
@@ -227,7 +242,7 @@ public class Game1 : Game
 
         // --- Dashed centre line ---
         for (int y = 0; y < ScreenH; y += 30)
-            DrawRect(ScreenW / 2 - 2, y, 4, 18, Color.DimGray); // Each dash: 4×18 px
+            DrawRect(ScreenW / 2 - 2, y, 4, 18, Color.DimGray); // Each dash: 4ï¿½18 px
 
         // --- Paddles ---
         var p1 = _paddle1.GetBounds();
@@ -274,7 +289,7 @@ public class Game1 : Game
         _spriteBatch.DrawString(_font, text, new Vector2((ScreenW - size.X) / 2f, y), Color.White);
     }
 
-    /// <summary>Draws a filled rectangle by scaling the 1×1 pixel texture.</summary>
+    /// <summary>Draws a filled rectangle by scaling the 1ï¿½1 pixel texture.</summary>
     private void DrawRect(int x, int y, int w, int h, Color color) =>
         _spriteBatch.Draw(_pixel, new Rectangle(x, y, w, h), color);
 
