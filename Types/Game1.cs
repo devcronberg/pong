@@ -23,26 +23,26 @@ public class Game1 : Game
     // --- MonoGame infrastructure ---
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch = null!; // Initialised in LoadContent
-    private Texture2D   _pixel       = null!; // 1�1 white texture used to draw rectangles
-    private SpriteFont  _font        = null!; // Bitmap font for scores and UI text
+    private Texture2D _pixel = null!; // 1�1 white texture used to draw rectangles
+    private SpriteFont _font = null!; // Bitmap font for scores and UI text
 
     // --- Screen dimensions (constant throughout the session) ---
-    private const int   ScreenW       = 800;
-    private const int   ScreenH       = 600;
-    private const float PaddleMargin  = 20f; // Gap between paddle and the screen edge
+    private const int ScreenW = 800;
+    private const int ScreenH = 600;
+    private const float PaddleMargin = 20f; // Gap between paddle and the screen edge
 
     // --- Game objects ---
-    private Ball       _ball       = null!;
-    private Paddle     _paddle1    = null!; // Left paddle  (player 1)
-    private Paddle     _paddle2    = null!; // Right paddle (player 2)
+    private Ball _ball = null!;
+    private Paddle _paddle1 = null!; // Left paddle  (player 1)
+    private Paddle _paddle2 = null!; // Right paddle (player 2)
     private ScoreBoard _scoreBoard = null!;
     private readonly GameLog _log = new GameLog(
         Environment.GetEnvironmentVariable("PONG_LOG_PATH")
         ?? Path.Combine(AppContext.BaseDirectory, "game.log"));
 
     // --- State machine ---
-    private GameState    _state        = GameState.Welcome;
-    private int          _serveTowards = 1;   // Which player the next ball is served towards
+    private GameState _state = GameState.Welcome;
+    private int _serveTowards = 1;   // Which player the next ball is served towards
     private KeyboardState _prevKb;            // Last frame's keyboard state (for edge detection)
 
     // --- Debug ---
@@ -55,7 +55,7 @@ public class Game1 : Game
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
-        _graphics.PreferredBackBufferWidth  = ScreenW;
+        _graphics.PreferredBackBufferWidth = ScreenW;
         _graphics.PreferredBackBufferHeight = ScreenH;
         Content.RootDirectory = "Content";
         IsMouseVisible = false;
@@ -69,17 +69,17 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // --- Create game objects ---
-        _ball      = new Ball(ScreenW, ScreenH);
-        _paddle1   = new Paddle(PaddleMargin,                          ScreenH, Keys.W,  Keys.S);
-        _paddle2   = new Paddle(ScreenW - PaddleMargin - Paddle.Width, ScreenH, Keys.Up, Keys.Down);
+        _ball = new Ball(ScreenW, ScreenH);
+        _paddle1 = new Paddle(PaddleMargin, ScreenH, Keys.W, Keys.S);
+        _paddle2 = new Paddle(ScreenW - PaddleMargin - Paddle.Width, ScreenH, Keys.Up, Keys.Down);
         _scoreBoard = new ScoreBoard();
 
         // --- Wire up events (loose coupling between objects) ---
         // Ball notifies Game1 when the ball scores, hits a paddle, or hits a wall.
         // Game1 then decides what to do (update score, play sound, etc.).
-        _ball.Scored    += OnBallScored;
+        _ball.Scored += OnBallScored;
         _ball.PaddleHit += OnPaddleHit;
-        _ball.WallHit   += OnWallHit;
+        _ball.WallHit += OnWallHit;
 
         // ScoreBoard notifies Game1 whenever a score changes.
         _scoreBoard.ScoreChanged += OnScoreChanged;
@@ -233,7 +233,7 @@ public class Game1 : Game
         // --- Welcome screen ---
         if (_state == GameState.Welcome)
         {
-            DrawCentered("Welcome to PONG",      ScreenH / 2f - 50);
+            DrawCentered("Welcome to PONG", ScreenH / 2f - 50);
             DrawCentered("Press Enter to start", ScreenH / 2f + 10);
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -257,8 +257,8 @@ public class Game1 : Game
         // --- Scores (centred in each player's half) ---
         string s1 = _scoreBoard.Score1.ToString();
         string s2 = _scoreBoard.Score2.ToString();
-        _spriteBatch.DrawString(_font, s1, new Vector2(ScreenW / 4f       - _font.MeasureString(s1).X / 2f, 20), Color.White);
-        _spriteBatch.DrawString(_font, s2, new Vector2(3 * ScreenW / 4f   - _font.MeasureString(s2).X / 2f, 20), Color.White);
+        _spriteBatch.DrawString(_font, s1, new Vector2(ScreenW / 4f - _font.MeasureString(s1).X / 2f, 20), Color.White);
+        _spriteBatch.DrawString(_font, s2, new Vector2(3 * ScreenW / 4f - _font.MeasureString(s2).X / 2f, 20), Color.White);
 
         // --- Serve prompt (shown while waiting for the next serve) ---
         if (_state == GameState.WaitingToServe)
@@ -267,10 +267,10 @@ public class Game1 : Game
         // --- Debug: collision hitboxes (toggle with F1) ---
         if (_debugCollision)
         {
-            DrawRectOutline(_ball.GetBounds(),    Color.Red);    // Ball hitbox
+            DrawRectOutline(_ball.GetBounds(), Color.Red);    // Ball hitbox
             DrawRectOutline(_paddle1.GetBounds(), Color.Red);    // Player 1 paddle
             DrawRectOutline(_paddle2.GetBounds(), Color.Red);    // Player 2 paddle
-            DrawRect(0, 0,           ScreenW, 2, Color.Red);     // Top wall
+            DrawRect(0, 0, ScreenW, 2, Color.Red);     // Top wall
             DrawRect(0, ScreenH - 2, ScreenW, 2, Color.Red);     // Bottom wall
         }
 
@@ -296,10 +296,10 @@ public class Game1 : Game
     /// <summary>Draws a 1-pixel border around a rectangle for debug visualisation.</summary>
     private void DrawRectOutline(Rectangle r, Color color)
     {
-        DrawRect(r.Left,      r.Top,        r.Width, 1,        color); // top
-        DrawRect(r.Left,      r.Bottom - 1, r.Width, 1,        color); // bottom
-        DrawRect(r.Left,      r.Top,        1,       r.Height, color); // left
-        DrawRect(r.Right - 1, r.Top,        1,       r.Height, color); // right
+        DrawRect(r.Left, r.Top, r.Width, 1, color); // top
+        DrawRect(r.Left, r.Bottom - 1, r.Width, 1, color); // bottom
+        DrawRect(r.Left, r.Top, 1, r.Height, color); // left
+        DrawRect(r.Right - 1, r.Top, 1, r.Height, color); // right
     }
 }
 
