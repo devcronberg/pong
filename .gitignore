@@ -17,3 +17,9 @@ Content/obj/
 # OS
 .DS_Store
 Thumbs.db
+
+# Generated Claude Code configuration (source: .github/)
+/CLAUDE.md
+/.claude/skills/
+/.claude/agents/
+/.claude/.generated-by-generate-claude

@@ -106,7 +106,8 @@ publish\osx-arm64\Pong          macOS Apple Silicon
 
 ## AI assistance (GitHub Copilot)
 
-This project includes a custom Copilot agent and skills to help work with MonoGame:
+VS Code with GitHub Copilot is the default setup. The original instructions,
+agent and skills live in `.github/` and are the only maintained versions.
 
 | | Name | Use |
 |---|---|---|
@@ -115,4 +116,39 @@ This project includes a custom Copilot agent and skills to help work with MonoGa
 | 🛠 **Skill** | `/add-screen` | Add a new game screen (Game Over, Pause, etc.) |
 | 🛠 **Skill** | `/add-sound-effect` | Add audio via the content pipeline |
 | 🛠 **Skill** | `/debug-collision` | Draw hitboxes to visualise collision detection |
+
+### Claude Code (optional)
+
+Students using Claude Code can generate its configuration with Windows PowerShell
+5.1 or PowerShell 7, without installing extra modules:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\generate-claude.ps1
+```
+
+For PowerShell 7, use `pwsh -File ./generate-claude.ps1` instead.
+Start a new Claude Code session in the project after generation.
+
+| Copilot source | Generated Claude Code output |
+|---|---|
+| `.github/copilot-instructions.md` | `CLAUDE.md` |
+| `.github/skills/` (including supporting files) | `.claude/skills/` |
+| `.github/agents/*.agent.md` | `.claude/agents/*.md` with translated metadata/tools |
+
+Rerun the script after updating the originals, including after a pull. Generated
+outputs are ignored by Git. Do not edit them: regeneration replaces `CLAUDE.md`
+and the entire generated skills/agents directories, removing obsolete entries.
+Other Claude files, such as `.claude/settings.local.json`, are left untouched.
+The first run refuses to overwrite existing configuration at the output paths.
+
+Agent conversion supports the current two-field frontmatter format (double-quoted
+description and inline tool list). Unsupported formats or tool groups stop
+generation before existing outputs are replaced. VS Code-specific settings and
+workflows are not converted.
+
+Run the generator's checks with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tests\Test-ClaudeGeneration.ps1
+```
 
