@@ -23,3 +23,7 @@ Thumbs.db
 /.claude/skills/
 /.claude/agents/
 /.claude/.generated-by-generate-claude
+
+# Local Serena data (share only the project configuration)
+/.serena/*
+!/.serena/project.yml

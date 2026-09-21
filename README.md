@@ -157,6 +157,47 @@ agent and skills live in `.github/` and are the only maintained versions.
 | 🛠 **Skill** | `/add-sound-effect` | Add audio via the content pipeline                       |
 | 🛠 **Skill** | `/debug-collision`  | Draw hitboxes to visualise collision detection           |
 
+### Serena MCP (optional, Windows)
+
+Run the setup once after cloning, using Windows PowerShell 5.1 or PowerShell 7:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install-serena.ps1
+```
+
+The script downloads and runs Astral's official uv installer if `uvx` is missing,
+adds its directory to the user PATH when needed, and prepares the Python and
+Serena versions configured in `.vscode/mcp.json`. It needs internet access but
+does not require administrator rights or change the system execution policy.
+Downloads and tool environments are stored outside the repository. Rerunning
+the script reuses the installation and cache; rerun after a configured version
+change or if the cache has been cleared.
+
+Build or refresh the local symbol index separately:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\index-serena.ps1
+```
+
+Run this after setup, before a demo, or to refresh the cache after larger code
+changes. The script uses the same pinned version as MCP and works regardless of
+the current directory. It requires the .NET SDK and may download C# language-server
+components on first use. Stop the Serena MCP server before running it to avoid
+concurrent cache writes.
+
+The shared `.serena/project.yml` selects C# and follows `.gitignore`, with explicit
+exclusions for build/publish output, test results, logs, and generated Claude files.
+Game and test source files remain included. Only `.serena/project.yml` is shared;
+Serena cache, logs, and memories stay local and are ignored by Git. Indexing failures,
+including partial failures, make the script fail instead of reporting success.
+
+After the first installation, close all VS Code windows and reopen the project
+to pick up PATH changes. Run **MCP: List Servers**, select **serena**, and
+start/approve the server. The setup checks the CLI with `--help`; it does not
+verify the MCP connection or C# symbol lookup. First server startup may download
+language-server components and create local Serena configuration/cache files.
+Serena is not required to build, test, or play PONG.
+
 ### Claude Code (optional)
 
 Students using Claude Code can generate its configuration with Windows PowerShell
