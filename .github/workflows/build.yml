@@ -2,9 +2,9 @@ name: Build & Release
 
 on:
   push:
-    branches: [ main, 'kursus*' ]
+    branches: [main, "kursus*"]
   pull_request:
-    branches: [ main, 'kursus*' ]
+    branches: [main, "kursus*"]
 
 permissions:
   contents: read
@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: "10.0.x"
 
       - name: Build game and tests with analyzers
         run: dotnet build tests/Pong.Tests/Pong.Tests.csproj --configuration Release --no-incremental -warnaserror -p:RunAnalyzersDuringBuild=true
@@ -54,7 +54,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: "10.0.x"
 
       - name: Install fonts
         run: |
