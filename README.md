@@ -84,7 +84,12 @@ Without this variable (for example with F5 or `dotnet run`), the game writes
 
 ## Testing
 
-The xUnit suite covers scoring, score-change events, and validation of player numbers. Rendering and the MonoGame window are verified manually.
+The xUnit suite covers scoring, score-change events, player-number validation,
+file logging, and the ball's initial position, reset after movement, serve
+direction and speed. Ball tests run without a game window and check properties
+that hold for every random serve angle. Collision regression tests and tests for
+new Game Over behaviour are left as course exercises. Rendering and the MonoGame
+window are verified manually.
 
 ## Ideas and exercises
 
