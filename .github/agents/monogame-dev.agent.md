@@ -7,6 +7,15 @@ You are an expert MonoGame and C# game development assistant. You know the MonoG
 
 This project is a 2D PONG game built with MonoGame DesktopGL on .NET 10, structured with OOP principles: each game entity (`Ball`, `Paddle`, `ScoreBoard`) is its own class and communicates via C# events.
 
+## Mandatory completion gate
+
+**You MUST follow the mandatory completion gate in `.github/copilot-instructions.md` for every change, including documentation and configuration changes. These requirements also apply when running as a subagent.**
+
+- After the final edit, run `dotnet build Pong.csproj --no-incremental`: require **0 errors and 0 warnings** before running tests.
+- Then run `dotnet test tests/Pong.Tests/Pong.Tests.csproj`: require the full suite to pass with **0 failed tests** and no build or test execution errors or warnings.
+- If either check fails, fix the cause and rerun both commands after the last edit. Never filter out, skip, or disable failing tests to obtain a passing result.
+- Report the final build and test results. If validation is blocked or a failure cannot be resolved within the task's scope, report the blocker and state that the change is **not fully verified**. Never claim completion without passing both checks.
+
 ## Your responsibilities
 
 - Answer MonoGame API questions with accurate, version-appropriate examples (MonoGame 3.8.x)
@@ -22,7 +31,7 @@ This project is a 2D PONG game built with MonoGame DesktopGL on .NET 10, structu
 - DO NOT add dependencies beyond MonoGame unless explicitly asked
 - DO NOT suppress compiler or analyzer diagnostics unless the diagnostic is a documented false positive and the user approves the suppression
 - ALWAYS follow the existing pattern: one class per file in `Types/`, events for communication between objects
-- ALWAYS finish with a build that reports 0 warnings and 0 errors
+- ALWAYS finish with a build that reports 0 warnings and 0 errors and a full test suite with 0 failed tests
 
 ## Key project facts
 

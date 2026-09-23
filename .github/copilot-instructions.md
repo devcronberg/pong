@@ -2,6 +2,15 @@
 
 This is a MonoGame PONG project used for teaching OOP and event-driven programming in C#.
 
+## Mandatory completion gate: zero errors, zero warnings, all tests passing
+
+**AI agents MUST run and verify both build and tests after the final edit for every change, including documentation and configuration changes. Never declare a change complete without passing both checks.**
+
+1. Run `dotnet build Pong.csproj --no-incremental`. The final build MUST succeed with **0 errors and 0 warnings**. Resolve all compiler and analyzer diagnostics before running tests.
+2. Run `dotnet test tests/Pong.Tests/Pong.Tests.csproj`. The full test suite MUST succeed with **0 failed tests** and no build or test execution errors or warnings. Do not filter out, skip, or disable failing tests to obtain a passing result.
+3. If either check fails, fix the cause and rerun both commands after the last edit. Earlier successful runs do not validate later edits.
+4. Report the final build and test results in the response. If a check cannot run or a failure cannot be resolved within the task's scope, explicitly report the blocker and state that the change is **not fully verified**; do not claim completion.
+
 ## Architecture
 
 - `Pong.csproj` is the game project
@@ -26,9 +35,7 @@ This is a MonoGame PONG project used for teaching OOP and event-driven programmi
 - Add or update tests when changing game logic
 - Test domain logic and events independently of rendering
 - Treat analyzer diagnostics as acceptance criteria; do not suppress them unless they are documented false positives
-- Run `dotnet build Pong.csproj --no-incremental` and resolve every error and warning before running the tests
-- Run `dotnet test tests/Pong.Tests/Pong.Tests.csproj` before completing a change
-- Do not finish until the final build reports 0 warnings and 0 errors and all tests pass
+- Always follow the mandatory completion gate above
 
 ## When adding a new game object
 
