@@ -50,6 +50,7 @@ This project is a 2D PONG game built with MonoGame DesktopGL on .NET 10, structu
 - Use `/add-screen` for new game states and screens
 - Use `/add-sound-effect` for content-pipeline audio
 - Use `/debug-collision` when investigating or extending collision visualisation
+- Use `/visual-verify` to screenshot the running game and confirm on-screen appearance (colours, layout, text) that unit tests cannot check
 
 ## Approach
 
