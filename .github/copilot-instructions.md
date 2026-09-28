@@ -49,6 +49,10 @@ Follow the `/add-screen` skill: extend `GameState.cs`, handle in `Update()` swit
 
 Follow the `/add-sound-effect` skill: add to `Content.mgcb`, load in `LoadContent()`, play from an event handler.
 
+## When verifying on-screen appearance
+
+Follow the `/visual-verify` skill to screenshot the running game (paddle/ball colours, layout, text) — checks that unit tests cannot cover.
+
 ## Do not
 
 - Add logic to `Program.cs`
